@@ -13,22 +13,28 @@ router.post("/addProduct",
             authController.checkRoleAdmin, 
             productController.create);
 router.get("/getAllProduct", 
+            authController.authorization,
             authController.checkRoleAdmin, 
             (productController.getAll));
 router.get("/getSingleProduct/:id", 
+            authController.authorization,
             authController.checkRoleAdmin,
             (productController.getSingle));
 router.put("/updateProduct/:id", 
+            authController.authorization,
             authController.checkRoleAdmin,
             productController.update);
-router.delete("/deleteProduct/:id", 
+router.delete("/deleteProduct/:id",
+            authController.authorization,
             authController.checkRoleAdmin, 
             productController.delete);
 
-router.post("/blockUser", 
+router.post("/blockUser/:id", 
+            authController.authorization,
             authController.checkRoleAdmin,
             userController.blockUser)
 router.get("/userList", 
+            authController.authorization,
             authController.checkRoleAdmin,
             userController.userList)
 

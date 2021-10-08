@@ -12,7 +12,6 @@ mongoose
   .catch((error) => {
     console.log('Connection to mongodb was not successful!', error);
   });
-// mongoose.set('useCreateIndex', true);
 
 // import all of our models
 

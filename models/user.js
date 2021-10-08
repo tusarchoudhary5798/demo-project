@@ -17,7 +17,10 @@ const UserSchema = new Schema(
             type: Boolean,
             default: false
         },
-        due_payment: Number	
+        due_payment: {
+            type: Number,
+            default: 0
+        }	
 	},
   	{ timestamps: true }
 );

@@ -69,23 +69,30 @@ exports.login = async (req, res) => {
 exports.checkRoleAdmin = async(req, res, next) =>{
 	if(req.user.role != "admin"){
 		const errors = {"message": "only admin can do this task"}
-		return res.status(400).json({ success: false, errors });
+		return res.status(403).json({ success: false, errors });
 	}
 	return next()
 }
 
+
 exports.authorization = async(req, res, next) =>{
-	console.log("here>>>>",req.headers.authorization)
+	errors = {}
 	if(req.headers.authorization){
 		let token = req.headers.authorization.split(" ")[1]
 		let user = jwt_decode(token);
 		req["user"] = user
-		console.log(user)
+		if( user.role == "user" && user.id){
+			const user = await User.findOne({_id: user.id});
+			if (!user) {
+				errors.message = 'invalid authorization token';
+				return res.status(400).json({ success: false, errors });
+			}	
+		}
 		return next()
 	}
 	else{
-		const errors = {"message": "unauthorized"}
-		return res.status(400).json({ success: false, errors });
+		errors.message = {"message": "unauthorized"}
+		return res.status(403).json({ success: false, errors });
 	}
 
 }
